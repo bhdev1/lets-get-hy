@@ -1,0 +1,8 @@
+- LLMs require textural data to be converted into numerical vectors (called embeddings) since they cannot process raw text
+- embeddings transform discrete data like words and images into continuous vector spaces making them compatible with neural network operations
+- as the first step, raw text is broken into tokens (tokenized) which can be words or characters then the tokens are converted into integer representations termed token IDs
+- special tokens such as <|unk|> and <|endoftext|> can be added to enhance the models understanding and handle various contexts such as unknown words or marking the boundary between unrelated texts
+- the "byte pair encoding" (BPE) tokenizer used for LLMs like GPT2 and GPT3 can efficiently handle unknown words by breaking them down into subword units or individual characters
+- use a sliding window approach on tokenized data to generate input-target pairs for LLM training
+- embedding layers in pytorch function as a lookup operation, retrieving vectors corresponding to tokenIDs. The resulting embedding vectors provide continuous representations of tokens which is crucial for training deep learning models like LLMs
+- while token embeddings provide consistent vector representations for each token, they lack a sense of the token's position in a sequence. To rectify this. two main types of positional embeddings exist: absolute and relative. OpenAI's GPT models utilize absolute positional embeddings which are added to the token embedding vectors and are optimized during the model training
