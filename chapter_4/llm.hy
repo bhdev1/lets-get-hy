@@ -13,6 +13,35 @@
                        "qkv_bias" False ; include bias vector in linear layers of multihead attention for query, key, and value computations
                        })
 
-(:drop_rate GPT-CONFIG-124M)
+(import tiktoken)
+(import torch)
+(import chapter_4.dummy_gpt_model :as DGPT)
+
+; this results in an error?
+; https://github.com/openai/tiktoken/issues/218
+; (setv tokenizer (tiktoken.get_encoding "gpt-2"))
+(setv tokenizer (tiktoken.get_encoding "o200k_base"))
+(print tokenizer)
+
+(setv batch [])
+(setv txt1 "Every effort moves you")
+(setv txt2 "Every day holds a")
+
+(.append batch (torch.tensor (tokenizer.encode txt1)))
+(.append batch (torch.tensor (tokenizer.encode txt2)))
+(setv batch (torch.stack batch :dim 0))
+(print batch)
+
+(torch.manual_seed 123)
+
+; initalize 124 million parameter DummyGPTModel and feed it the tokenized batch
+(setv model (DGPT.DummyGPTModel GPT_CONFIG_124M))
+(setv logits (model batch))
+(print "output shape: " (.size logits)) ;; expect -> torch.Size ([2, 4, 50257])
+(print logits)                                
+                                        
+
+
+; Noticed something interesting, if there are conflicting issues, first try deleting the generated CPython file or the entire __pycache__ directory because it can cause hard to debug issues (ex. a class that should have a specific property, keeps coming up as not found), the files will be re-generated as necessary so it should not cause issues deleting them and restarting the Hy REPL
 
 
