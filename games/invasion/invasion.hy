@@ -2,6 +2,7 @@
 (import pygame)
 
 (import games.invasion.settings :as settings)
+(import games.invasion.ship :as ship)
 
 (defclass Invasion []
   (defn __init__ [self] 
@@ -10,7 +11,9 @@
     (setv self.settings (settings.Settings))
 
     (setv self.screen (.set_mode pygame.display #(self.settings.screen_width self.settings.screen_height)))
-    (.set_caption pygame.display "Invasion"))
+    (.set_caption pygame.display "Invasion")
+    
+    (setv self.ship (ship.Ship self)))
 
   (defn run-game [self]
     (while True
@@ -19,6 +22,8 @@
           (.exit sys))
 
         (self.screen.fill self.settings.bg_color)
+
+        (self.ship.draw-ship)
 
         (.flip pygame.display)
         (self.clock.tick 60)))))
